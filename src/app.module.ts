@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from './user/model/user.model';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
       dialectOptions: { charset: 'utf8mb4', dateStrings: true, typeCast: true },
       synchronize: true,
       autoLoadModels: true,
-      models: [],
+      models: [User],
     }),
   ],
   controllers: [],
