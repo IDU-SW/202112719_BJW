@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user/model/user.model';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { User } from './user/model/user.model';
       autoLoadModels: true,
       models: [User],
     }),
+    UserModule,
   ],
   controllers: [],
   providers: [],

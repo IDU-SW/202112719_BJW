@@ -1,11 +1,11 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 import sequelize from 'sequelize';
-import { Enum_User_Role } from '../interface/user-role.interface';
+import { Enum_User_Role } from '../dto/user-role.enum';
 
 @Table({
   timestamps: false,
 })
-export class User extends Model<User> {
+export class User extends Model {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -13,7 +13,7 @@ export class User extends Model<User> {
   })
   id: number;
 
-  @Column
+  @Column({ defaultValue: Enum_User_Role.CLIENT })
   role: Enum_User_Role;
 
   @Column
@@ -31,7 +31,7 @@ export class User extends Model<User> {
   @Column
   phone: string;
 
-  @Column
+  @Column({ defaultValue: false })
   is_deleted: boolean;
 
   @Column({ defaultValue: sequelize.literal('now()') })
