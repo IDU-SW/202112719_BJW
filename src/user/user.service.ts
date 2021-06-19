@@ -56,7 +56,7 @@ export class UserService {
       }
     } catch (err) {
       return {
-        ok: true,
+        ok: false,
         message: err,
       };
     }
