@@ -11,6 +11,8 @@ import { User } from './user/model/user.model';
 import { UserModule } from './user/user.module';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { ProductModule } from './product/product.module';
+import { Product } from './product/model/product.model';
 
 @Module({
   imports: [
@@ -36,10 +38,11 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
       dialectOptions: { charset: 'utf8mb4', dateStrings: true, typeCast: true },
       synchronize: true,
       autoLoadModels: true,
-      models: [User],
+      models: [User, Product],
     }),
     UserModule,
     JwtModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [],

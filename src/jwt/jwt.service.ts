@@ -13,7 +13,8 @@ export class JwtService {
     }
   }
 
-  async verifed(token: string): Promise<boolean> {
-    return false;
+  async verifed(token: string) {
+    const verified = verify(token, process.env.JWT_SECRET);
+    return verified;
   }
 }
