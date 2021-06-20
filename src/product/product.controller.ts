@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { Enum_User_Role } from 'src/user/dto/user-role.enum';
 import { User } from 'src/user/model/user.model';
+import { ReadProductOutput } from './dto/read-product.dto';
 import {
   RegisterProductInput,
   RegisterProductOutput,
@@ -14,6 +15,21 @@ export class ProductController {
   @Get('')
   sayHello() {
     return 'hello';
+  }
+
+  @Get('/all')
+  async getAll() {
+    const result = await this.productService.getAll();
+
+    if (result.ok) return result;
+  }
+
+  @Get(':id')
+  async getOne(@Param() param: { id: string }) {
+    const result = await this.productService.getOne(param);
+
+    if (result.ok) return result;
+    else return { ok: false };
   }
 
   @Post('/register')

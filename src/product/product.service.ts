@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { User } from 'src/user/model/user.model';
+import { ReadProductOutput } from './dto/read-product.dto';
 import {
   RegisterProductInput,
   RegisterProductOutput,
@@ -26,6 +28,64 @@ export class ProductService {
         ok: false,
         message: err,
         result: {},
+      };
+    }
+  }
+
+  async getAll(): Promise<ReadProductOutput> {
+    try {
+      const result = await this.product.findAll({
+        include: {
+          model: User,
+
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+          },
+        },
+        raw: true,
+      });
+
+      return {
+        ok: true,
+        message: '',
+        result,
+      };
+    } catch (err) {
+      return {
+        ok: false,
+        message: err,
+      };
+    }
+  }
+
+  async getOne(param: { id: string }): Promise<ReadProductOutput> {
+    try {
+      const result = await this.product.findOne({
+        where: { id: param.id },
+        include: {
+          model: User,
+
+          attributes: {
+            exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+          },
+        },
+        raw: true,
+      });
+
+      if (!result) {
+        return {
+          ok: false,
+          message: null,
+        };
+      }
+
+      return {
+        ok: true,
+        result,
+      };
+    } catch (err) {
+      return {
+        ok: false,
       };
     }
   }
