@@ -27,21 +27,31 @@ export class Product extends Model {
 
   @Column({
     type: DataType.INTEGER,
+    defaultValue: 0,
   })
   category_id: number;
 
-  @Column({})
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 0,
+  })
   @ForeignKey(() => User)
   user_id: number;
 
   @BelongsTo(() => User)
   user: User;
 
-  @Column
+  @Column({
+    type: DataType.STRING(200),
+    defaultValue: '0',
+  })
   price: string;
 
-  @Column
-  is_bargain: string;
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  is_bargain: boolean;
 
   @Column
   harvest_day: string;
