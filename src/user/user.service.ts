@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CoreOutput } from 'src/common/core-output.dto';
+import { JwtService } from 'src/jwt/jwt.service';
 import { CreateUserInput, CreateUserOutput } from './dto/user-create.dto';
+import { SignInInput, SignInOutput } from './dto/user-signIn.dto';
 import { User } from './model/user.model';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private user: typeof User) {}
+  constructor(
+    @InjectModel(User) private user: typeof User,
+    private readonly jwt: JwtService,
+  ) {}
 
-  async checkUserEmail(
+  async findOneUser(
     input: Pick<CreateUserInput, 'email'>,
   ): Promise<CreateUserOutput> {
     try {
       const checkEmail = await this.user.findOne({
         where: { email: input.email },
+
         raw: true,
       });
 
@@ -36,9 +41,9 @@ export class UserService {
     }
   }
 
-  async createUser(input: CreateUserInput): Promise<CreateUserOutput> {
+  async signUp(input: CreateUserInput): Promise<CreateUserOutput> {
     try {
-      const isExistEmail = await this.checkUserEmail({ email: input.email });
+      const isExistEmail = await this.findOneUser({ email: input.email });
 
       if (!isExistEmail.ok)
         return {
@@ -58,6 +63,57 @@ export class UserService {
       return {
         ok: false,
         message: err,
+      };
+    }
+  }
+
+  async signIn(input: SignInInput): Promise<SignInOutput> {
+    try {
+      let passwordCheck: boolean = false;
+
+      const user = await this.user
+        .findOne({
+          where: { email: input.email },
+          attributes: {
+            include: ['email', 'address', 'id', 'role', 'phone'],
+          },
+          raw: true,
+        })
+        .then((result) => {
+          if (result.password === input.password) {
+            passwordCheck = true;
+          } else {
+            passwordCheck = false;
+          }
+          return result;
+        });
+
+      if (!user) {
+        return {
+          ok: false,
+          message: 'Not Verifed',
+        };
+      }
+
+      if (!passwordCheck) {
+        return {
+          ok: false,
+          message: 'Not Access',
+        };
+      }
+
+      if (user && passwordCheck) {
+        const token = await this.jwt.sign(user);
+        return {
+          ok: true,
+          message: 'ok',
+          token: token,
+        };
+      }
+    } catch {
+      return {
+        ok: false,
+        message: 'error',
       };
     }
   }

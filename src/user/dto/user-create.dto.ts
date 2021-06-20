@@ -1,7 +1,7 @@
 import { CoreOutput } from 'src/common/core-output.dto';
 import { Enum_User_Role } from './user-role.enum';
 
-export interface CreateUserInput {
+export class CreateUserInput {
   email: string;
   password: string;
   address: string;
@@ -9,6 +9,6 @@ export interface CreateUserInput {
   phone: string;
 }
 
-export interface CreateUserOutput extends CoreOutput {
+export class CreateUserOutput extends CoreOutput {
   data?: any;
 }
