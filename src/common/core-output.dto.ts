@@ -1,4 +1,4 @@
-export interface CoreOutput {
+export class CoreOutput {
   ok: boolean;
   message?: string;
 }

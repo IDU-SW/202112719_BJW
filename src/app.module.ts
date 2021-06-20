@@ -1,9 +1,16 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user/model/user.model';
 import { UserModule } from './user/user.module';
+import { JwtModule } from './jwt/jwt.module';
+import { JwtMiddleware } from './jwt/jwt.middleware';
 
 @Module({
   imports: [
@@ -32,8 +39,15 @@ import { UserModule } from './user/user.module';
       models: [User],
     }),
     UserModule,
+    JwtModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtMiddleware)
+      .forRoutes({ path: '/', method: RequestMethod.ALL });
+  }
+}
