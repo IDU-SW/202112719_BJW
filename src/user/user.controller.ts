@@ -23,7 +23,7 @@ export class UserController {
   }
 
   @Post('signin')
-  signIn(@Body() signInInput: SignInInput): Promise<SignInOutput> {
-    return this.userService.signIn(signInInput);
+  async signIn(@Body() signInInput: SignInInput): Promise<SignInOutput> {
+    return await this.userService.signIn(signInInput);
   }
 }

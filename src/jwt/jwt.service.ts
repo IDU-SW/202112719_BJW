@@ -12,4 +12,8 @@ export class JwtService {
       console.log(e);
     }
   }
+
+  async verifed(token: string): Promise<boolean> {
+    return false;
+  }
 }
