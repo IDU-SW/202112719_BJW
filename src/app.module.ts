@@ -11,6 +11,7 @@ import { User } from './user/model/user.model';
 import { UserModule } from './user/user.module';
 import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
     }),
     UserModule,
     JwtModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [],
