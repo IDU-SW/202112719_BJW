@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { ApiHeader } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Enum_User_Role } from 'src/user/dto/user-role.enum';
 import { User } from 'src/user/model/user.model';
@@ -31,6 +32,10 @@ export class ProductController {
     else return { ok: false };
   }
 
+  @ApiHeader({
+    name: 'Authorization',
+    example: 'Bearer ',
+  })
   @Post('/register')
   async registerProduct(
     @Req() req: Request,
