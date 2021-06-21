@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { Sequelize } from 'sequelize-typescript';
+import { Category } from 'src/category/model/category.model';
 import { User } from 'src/user/model/user.model';
 import { ReadProductOutput } from './dto/read-product.dto';
 import {
@@ -35,12 +37,31 @@ export class ProductService {
   async getAll(): Promise<ReadProductOutput> {
     try {
       const result = await this.product.findAll({
-        include: {
-          model: User,
-
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+            },
           },
+          {
+            model: Category,
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt', 'is_deleted'],
+            },
+          },
+        ],
+        attributes: {
+          include: [
+            [
+              Sequelize.literal(`\"category\".\"category_name\"`),
+              'category_name',
+            ],
+            [Sequelize.literal(`\"user\".\"email\"`), 'partner_email'],
+            [Sequelize.literal(`\"user\".\"role\"`), 'partner_role'],
+            [Sequelize.literal(`\"user\".\"phone\"`), 'partner_phone'],
+            [Sequelize.literal(`\"user\".\"address\"`), 'partner_address'],
+          ],
         },
         raw: true,
       });
@@ -62,12 +83,31 @@ export class ProductService {
     try {
       const result = await this.product.findOne({
         where: { id: param.id },
-        include: {
-          model: User,
-
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt', 'is_deleted'],
+            },
           },
+          {
+            model: Category,
+            attributes: {
+              exclude: ['id', 'createdAt', 'updatedAt', 'is_deleted'],
+            },
+          },
+        ],
+        attributes: {
+          include: [
+            [
+              Sequelize.literal(`\"category\".\"category_name\"`),
+              'category_name',
+            ],
+            [Sequelize.literal(`\"user\".\"email\"`), 'partner_email'],
+            [Sequelize.literal(`\"user\".\"role\"`), 'partner_role'],
+            [Sequelize.literal(`\"user\".\"phone\"`), 'partner_phone'],
+            [Sequelize.literal(`\"user\".\"address\"`), 'partner_address'],
+          ],
         },
         raw: true,
       });

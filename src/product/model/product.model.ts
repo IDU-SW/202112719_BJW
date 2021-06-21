@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import sequelize from 'sequelize';
 import { User } from 'src/user/model/user.model';
+import { Category } from 'src/category/model/category.model';
 
 @Table({
   timestamps: false,
@@ -29,7 +30,11 @@ export class Product extends Model {
     type: DataType.INTEGER,
     defaultValue: 0,
   })
+  @ForeignKey(() => Category)
   category_id: number;
+
+  @BelongsTo(() => Category)
+  category: Category;
 
   @Column({
     type: DataType.INTEGER,

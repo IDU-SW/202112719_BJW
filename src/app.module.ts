@@ -14,6 +14,7 @@ import { JwtMiddleware } from './jwt/jwt.middleware';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/model/product.model';
 import { CategoryModule } from './category/category.module';
+import { Category } from './category/model/category.model';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { CategoryModule } from './category/category.module';
       dialectOptions: { charset: 'utf8mb4', dateStrings: true, typeCast: true },
       synchronize: true,
       autoLoadModels: true,
-      models: [User, Product],
+      models: [User, Product, Category],
     }),
     UserModule,
     JwtModule,

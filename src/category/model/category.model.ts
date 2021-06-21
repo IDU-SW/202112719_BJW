@@ -24,9 +24,6 @@ export class Category extends Model {
   })
   category_name: string;
 
-  @BelongsTo(() => Product)
-  product: Product;
-
   @Column({ defaultValue: false })
   is_deleted: boolean;
 
