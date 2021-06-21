@@ -13,6 +13,7 @@ import { JwtModule } from './jwt/jwt.module';
 import { JwtMiddleware } from './jwt/jwt.middleware';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/model/product.model';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { Product } from './product/model/product.model';
     UserModule,
     JwtModule,
     ProductModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
