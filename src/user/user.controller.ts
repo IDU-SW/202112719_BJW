@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { ApiOperation } from '@nestjs/swagger';
+import { Response } from 'express';
 import { CreateUserInput } from './dto/user-create.dto';
 import { SignInInput, SignInOutput } from './dto/user-signIn.dto';
 import { UserService } from './user.service';
@@ -12,6 +13,10 @@ export class UserController {
     return 'hello';
   }
 
+  @ApiOperation({
+    description: '회원가입',
+    summary: '회원가입',
+  })
   @Post('signup')
   async signUp(@Res() res: Response, @Body() createUser: CreateUserInput) {
     const result = await this.userService.signUp(createUser);
@@ -22,6 +27,10 @@ export class UserController {
     }
   }
 
+  @ApiOperation({
+    description: '로그인',
+    summary: '로그인',
+  })
   @Post('signin')
   async signIn(@Body() signInInput: SignInInput): Promise<SignInOutput> {
     return await this.userService.signIn(signInInput);
