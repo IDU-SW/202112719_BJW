@@ -1,7 +1,7 @@
 import { ApiProperty, ApiResponseProperty } from '@nestjs/swagger';
 import { CoreOutput } from 'src/common/core-output.dto';
 
-export class SignInInput extends CoreOutput {
+export class SignInInput {
   @ApiProperty({})
   email: string;
   @ApiProperty({})

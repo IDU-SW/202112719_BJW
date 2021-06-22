@@ -41,7 +41,7 @@ export class ProductController {
     @Req() req: Request,
     @Body() input: RegisterProductInput,
   ): Promise<RegisterProductOutput> {
-    const user: User =
+    const user: any =
       req['user'] && req['user'].hasOwnProperty('id') ? req['user'] : undefined;
 
     if (user.role !== Enum_User_Role.PARTNER) {
