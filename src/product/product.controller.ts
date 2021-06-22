@@ -14,6 +14,7 @@ import {
   ApiHeader,
   ApiHeaders,
   ApiOperation,
+  ApiParam,
   ApiSecurity,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
@@ -46,6 +47,9 @@ export class ProductController {
   @ApiOperation({
     description: '상품 상세',
     summary: '상품 상세',
+  })
+  @ApiParam({
+    name: 'id',
   })
   @Get(':id')
   async getOne(@Param() param: { id: string }) {
