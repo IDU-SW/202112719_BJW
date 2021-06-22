@@ -1,8 +1,17 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiHeader } from '@nestjs/swagger';
-import { Request } from 'express';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { JwtUserInfo } from 'src/auth/interface/jwt-user-info.interface';
 import { Enum_User_Role } from 'src/user/dto/user-role.enum';
-import { User } from 'src/user/model/user.model';
 import {
   RegisterProductInput,
   RegisterProductOutput,
@@ -18,10 +27,9 @@ export class ProductController {
   }
 
   @Get('/all')
-  async getAll() {
+  async getAll(@Request() req: Request) {
     const result = await this.productService.getAll();
     return result;
-    if (result.ok) return result;
   }
 
   @Get(':id')
@@ -36,13 +44,13 @@ export class ProductController {
     name: 'Authorization',
     example: 'Bearer ',
   })
+  @UseGuards(JwtAuthGuard)
   @Post('/register')
   async registerProduct(
     @Req() req: Request,
     @Body() input: RegisterProductInput,
   ): Promise<RegisterProductOutput> {
-    const user: any =
-      req['user'] && req['user'].hasOwnProperty('id') ? req['user'] : undefined;
+    const user: JwtUserInfo = req['user'];
 
     if (user.role !== Enum_User_Role.PARTNER) {
       //break;

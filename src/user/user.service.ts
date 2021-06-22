@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
-import { JwtService } from 'src/jwt/jwt.service';
 import { CreateUserInput, CreateUserOutput } from './dto/user-create.dto';
 import { SignInInput, SignInOutput } from './dto/user-signIn.dto';
 import { User } from './model/user.model';
@@ -9,7 +9,7 @@ import { User } from './model/user.model';
 export class UserService {
   constructor(
     @InjectModel(User) private user: typeof User,
-    private readonly jwt: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async findOneUser(
@@ -103,7 +103,9 @@ export class UserService {
       }
 
       if (user && passwordCheck) {
-        const token = await this.jwt.sign(user);
+        const token = await this.jwtService.sign(user, {
+          secret: process.env.JWT_SECRET,
+        });
         return {
           ok: true,
           message: 'ok',
