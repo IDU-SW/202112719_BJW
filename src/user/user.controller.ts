@@ -37,7 +37,7 @@ export class UserController {
   }
 
   @ApiOperation({
-    description: '로그인',
+    description: '로그인시 Jwt 부여',
     summary: '로그인',
   })
   @UseGuards(AuthGuard('local'))

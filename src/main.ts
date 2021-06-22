@@ -13,6 +13,14 @@ async function bootstrap() {
       'https://github.com/IDU-SW/202112719_BJW',
       'jkor@capa.ai',
     )
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

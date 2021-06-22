@@ -8,7 +8,14 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiHeader } from '@nestjs/swagger';
+import {
+  ApiBasicAuth,
+  ApiBearerAuth,
+  ApiHeader,
+  ApiHeaders,
+  ApiOperation,
+  ApiSecurity,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { JwtUserInfo } from 'src/auth/interface/jwt-user-info.interface';
 import { Enum_User_Role } from 'src/user/dto/user-role.enum';
@@ -26,12 +33,20 @@ export class ProductController {
     return 'hello';
   }
 
+  @ApiOperation({
+    description: '전체 상품 리스트',
+    summary: '상품 리스트',
+  })
   @Get('/all')
   async getAll(@Request() req: Request) {
     const result = await this.productService.getAll();
     return result;
   }
 
+  @ApiOperation({
+    description: '상품 상세',
+    summary: '상품 상세',
+  })
   @Get(':id')
   async getOne(@Param() param: { id: string }) {
     const result = await this.productService.getOne(param);
@@ -40,10 +55,11 @@ export class ProductController {
     else return { ok: false };
   }
 
-  @ApiHeader({
-    name: 'Authorization',
-    example: 'Bearer ',
+  @ApiOperation({
+    description: '상품 등록(파트너만 가능)',
+    summary: '상품 등록(파트너만 가능)',
   })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('/register')
   async registerProduct(
