@@ -15,6 +15,7 @@ import { ProductModule } from './product/product.module';
 import { Product } from './product/model/product.model';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/model/category.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -46,14 +47,16 @@ import { Category } from './category/model/category.model';
     JwtModule,
     ProductModule,
     CategoryModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(JwtMiddleware)
-      .forRoutes({ path: '/', method: RequestMethod.ALL });
-  }
-}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(JwtMiddleware)
+//       .forRoutes({ path: '/', method: RequestMethod.ALL });
+//   }
+// }
+export class AppModule {}

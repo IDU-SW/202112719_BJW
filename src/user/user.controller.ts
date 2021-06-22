@@ -1,4 +1,13 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateUserInput } from './dto/user-create.dto';
@@ -31,6 +40,7 @@ export class UserController {
     description: '로그인',
     summary: '로그인',
   })
+  @UseGuards(AuthGuard('local'))
   @Post('signin')
   async signIn(@Body() signInInput: SignInInput): Promise<SignInOutput> {
     return await this.userService.signIn(signInInput);
