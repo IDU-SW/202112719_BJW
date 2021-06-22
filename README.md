@@ -8,6 +8,12 @@
 
 ```
  Swagger URL : http://dev.backend-gc.com/api
+
+ [Client]
+ email: bjwkor2@naver.com / passwrod: 12345
+
+ [Partner]
+ email: bjwkor@naver.com / passwrod: 12345
 ```
 
 ### Table
