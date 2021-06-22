@@ -60,6 +60,7 @@ export class ProductController {
     summary: '상품 등록(파트너만 가능)',
   })
   @ApiBearerAuth()
+  @ApiSecurity('token')
   @UseGuards(JwtAuthGuard)
   @Post('/register')
   async registerProduct(
