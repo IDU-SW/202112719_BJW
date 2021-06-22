@@ -1,16 +1,9 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './user/model/user.model';
 import { UserModule } from './user/user.module';
-import { JwtModule } from './jwt/jwt.module';
-import { JwtMiddleware } from './jwt/jwt.middleware';
 import { ProductModule } from './product/product.module';
 import { Product } from './product/model/product.model';
 import { CategoryModule } from './category/category.module';
@@ -44,7 +37,6 @@ import { AuthModule } from './auth/auth.module';
       models: [User, Product, Category],
     }),
     UserModule,
-    JwtModule,
     ProductModule,
     CategoryModule,
     AuthModule,
@@ -52,11 +44,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [],
   providers: [],
 })
-// export class AppModule implements NestModule {
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer
-//       .apply(JwtMiddleware)
-//       .forRoutes({ path: '/', method: RequestMethod.ALL });
-//   }
-// }
 export class AppModule {}
